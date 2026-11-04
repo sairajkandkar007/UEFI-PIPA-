@@ -6,6 +6,20 @@
 
 This Project focuses on Making ARM-Based Devices Boot Operating Systems like Windows or Linux using Custom UEFI Firmware.
 
+## Xiaomi Pad 6 (pipa): Secure Boot build
+
+A dedicated GitHub Actions workflow builds the Xiaomi Pad 6 UEFI image without requiring pipa to be marked Active in `Status.md`.
+
+1. Open **Actions → Build Xiaomi Pad 6 Secure Boot UEFI**.
+2. Select **Run workflow**.
+3. Choose `RELEASE` for normal use (or `DEBUG` for diagnostics).
+4. Keep **Enable Secure Boot** checked.
+5. Download the `pipa-uefi-…-secureboot` artifact after the workflow succeeds. It contains `Mu-pipa.img`.
+
+The workflow builds the existing pipa platform package (`Platforms/Xiaomi/pipaPkg`) with the build system's `-s/--enable-secureboot` option. The Secure Boot configuration currently uses the Project Silicium key material and policy already present in this source tree; it is **not a personal-key build**. Do not describe it as Xiaomi/OEM Secure Boot, and do not assume it will boot binaries that are not trusted by the enrolled keys.
+
+**Device safety:** this workflow only compiles and uploads an image. It does not flash the tablet, unlock/lock the bootloader, or change Android partitions. Keep the bootloader unlocked while testing custom firmware, retain a known-good recovery/stock restore path, and verify the image and its trust chain before any device-side installation. Enabling UEFI Secure Boot does not itself re-enable Android Verified Boot or relock Xiaomi's bootloader.
+
 ## Resources
 
 - [Status](Status.md)
